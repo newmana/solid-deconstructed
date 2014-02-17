@@ -2,7 +2,7 @@ SOLID Deconstruction
 
 Slide 1
 
-Hi, I’m presenting Kevlin Henney’s SOLID Deconstruction talk.  Now I found his talk to be a little fleeting but basically it’s about dispelling misconceptions around SOLID and how the guidelines came about and been misinterpreted - I’ve tried to flesh out a few new slides, move some around and I’ve deleted some others where I could remember the point of them. Many of the slides require reading which is not a style I am good at but will try and do it with the same flair.
+Hi, I’m presenting Kevlin Henney’s SOLID Deconstruction talk.  I found his talk to be a little fleeting but basically it’s about dispelling misconceptions around SOLID and how the guidelines came about and have been misinterpreted - I’ve tried to flesh out points with a few new slides, move some around and I’ve deleted others where I could remember the point of them. Many of the slides require reading which is not a style I am good at but will try and do it with the same flair.
 
 Slide 2-3
 
