@@ -1,0 +1,109 @@
+SOLID Deconstruction
+
+Slide 1
+
+Hi, I’m presenting Kevlin Henney’s SOLID Deconstruction talk.  Now I found his talk to be a little fleeting but basically it’s about dispelling misconceptions around SOLID and how the guidelines came about and been misinterpreted - I’ve tried to flesh out a few new slides, move some around and I’ve deleted some others where I could remember the point of them. Many of the slides require reading which is not a style I like but will try and do it with the same flair.
+
+Slide 2-3
+
+He writes lots of things - usually about Patterns and Java and flash fiction < 1000 words.
+
+Slide 4-6
+
+SOLID - Single Responsibility, Open/Closed Principle, Liskov Substitution, Interface Segregation, Dependency Inversion/Injection
+It was first mooted by Bob Martin.  In it’s original form it’s more OLD (open/closed, Liskov and DI).  And the Single Responsibility and Interface Segregation was a bit more nuanced.
+Slide 7-9
+The original idea from SOLID came from a posting by Jm Fleming asking for the 10 commandments of OO.
+5. Polymorphism
+7. experienced developers.
+8. design issues.
+10. debugging only.
+In it’s original form it’s more OLD (open/closed, Liskov and DI).
+The Single Responsibility and Interface Segregation was a bit more nuanced. “The granule of reuse is the same as the granule of release.” and “Classes within a released component should share common closure. That is, if one needs to be changed, they all are likely to need to be changed.  What affects one, affects all.” and “Classes within a released component should be reused together. That is, it is impossible to separate the components from each other in order to reuse less than the total.”
+Slide 10
+He went through and said is SOLID really a principle - is it a fundamental truth, a moral or value, a theorem or natural law? No.
+Slide 11
+It’s more a pattern - something of a solution to a well know problem.
+Slide 12
+So where do these patterns come from? This is Dreyfus model of skill acquisition - going from novice - blind following, to beginner - start to see units of work, to component - able to plan to reach outcome, to proficient - able to prioritise and uses maxims, to expert - intuitive understanding without rules.  One of the overruling aspects of this is that help is initially context free but as you get better you understand the context.  A lot of the misinterpretation of SOLID comes from people at the bottom looking up trying to understand the context.  Part of coming up with patterns is allowing the transition from one level to the other.
+Slide 12-20
+Where did this come from?
+Single Responsibility - the definition actually seems to mean cohesion.  Read out last paragraph.  What’s the difference between this and coupling.  Coupling is bad because?!
+This is a blog post by Glen Vanderburg explaining cohesion as a concept and going through some of the definitions.  He contrasts cohesion with adhesion.  You force something to stick to something else with glue.  With cohesion they belong together.
+Something that is cohesive is coherent.  Coupling is adhesion - where something sticks to something else for no good reason other than someone stuck them together with glue or tape or a class. And cohesion is good because? They are made for one another - like two lumps of clay or machine parts.   Whereas adhesion or coupling is ad hoc.  Another word is inhesion or inherent - meaning it ceases to be that thing if you break that bond.
+Slide 21-25
+Another example of single responsibility is Unix philosophy.
+In time programs develop overlapping features. The idea is that they lose their uniqueness over time.
+The key of the Unix philosophy is not writing small programs but writings ones that fit together.  Not having overlapping features (like grep -r vs find --exec).  Unix requires contracts (pipes between text output).  And the reasons you do something internally is because combining it with something else is too expensive.
+Slide 25
+java.util and stdlib are not examples of following this idea - the names give no indication their purpose.
+Slide 26-32
+Interface segregation basically says if you want to implement something you shouldn’t have to implement more than that one thing.  Basically if you avoid inheritance you avoid this problem.  And if you class exhibits cohesion it exhibits interface segregation.  java.sql.Statement is a good example.  Much to implement - almost no reuse.
+So while this is a bit jokey it actually means you need to break your interfaces down.  Create a interface for the minimum implementation.
+Going back to Glenn’s blog on cohesion.  What if you replace class with interface?
+The main emphasis here is on responsibilities.  This may apply to different levels of grouping - classes, modules, etc.  And so if it’s for interfaces they should generally be more than 3-5 methods.
+More broadly, the idea is put together the things that change together - subsystems, modules, classes, or functions should not have more than one reason to change. So this makes Interface Segregation just look like a part of the Single Responsibility Principle - it’s just SRP applied to interfaces and not just classes.
+This is basically grouping things in space - in the same method, file, module, service and there should be around 3-5 things.
+Slide 33-36
+The LSP states that you shouldn’t be able to tell the difference between and an object that inherits code and one that doesn’t.  A common example is 3d point extending 2d point or Rectangle extending Square.  A user can call setH and setW on a Rectangle that is actually a square and the area calculated won’t match their expectations.  Likewise, a LRU doesn’t act like a list - because when you substitute List with an LRU it doesn’t meet those tests. It prepends to the list, it disallows nulls and prevents duplicates.
+Slide 37
+Of course that means, as seen on MSDN, you should override a 2D in order to implement a 3D point - which doesn’t work if you have operations that expect only 2 points - like translate x,y - what happens to the z? or a Rectangle extending a Square. Why is that a bad idea? A user can call setH and setW on a Rectangle that is actually a square and the area calculated won’t match their expectations - it will be whatever the last set is?
+Slide 38-44
+A simple list - 3-5 classes implementation reusing with inheritance an array list string. You’re following the first two patterns. You’ve actually already made a mistake by calling it simple.
+The contract for SimpleList includes these tests - append, allow null, and duplicate keys.
+So the simplest way, surely is to extend ArrayList<String>.
+All the tests go green.
+A customer or BA comes in and says create an ordered list - where the least recently used items are at the tail of the list and the most recently are at the front.  As a developer this is easy we just override add.
+But now my tests are all red.
+What may have been better is to reuse list by composition and not inherit the implementation and interface.
+Slide 45-48
+Liskov was really saying one implementation per type not inheritance.
+Slide 49-55
+So Open/Closed means it must be open for extension and closed for modification. So this basically breaks LSP - if you extend something you will break the contract of the type.
+So the point here is that the open/closed principle breaks Liskov Substitution if applied to classes and isn’t what was originally intended.
+What’s probably closer to the original intent is what Martin Fowler calls “Published Interfaces” - it makes the distinction between a private interface and a published one.  So basically open and closed principle becomes more about maintaining versions in calling code than inheritance and about exposing the right interface - which goes back to SRP.
+So this is more about cohesion over versions of libraries.
+Slide 56-63
+The idea behind DI is to have low level objects depend on higher ones so that higher ones are free of lower level implementations.  This book shows how the outer layers of the house are independent of the internal ones.  You change you furniture about a lot but the foundations never.  So if you go back to SRP and cohesion it’s the same thing.
+Compare with say j2ee code - where the most changeable part, SomeClass, refers to some external service - what this has done though is couple your code to the name of the service as well as how you look it up.
+Slides 64-66
+SRP/Open/Closed - is cohesion by usage and change.
+LSP - is conformance of the interface.
+Interface Segregation/DI - interface by - consistency by space and time.
+Slides 67-71
+These are more guidelines than principles. Functional - not hard core - just treat objects as a single units of functionality - creating smaller and smaller interfaces.
+
+Loose - is the idea of message passing and late bindings.  The idea that things can change as they are running - write Smalltalk programs in an IDE written in Smalltalk to upgrade your IDE.
+
+Unit testable is writing code that is easy to test automatically.
+
+This is introspective.  Ability to write the program in itself and to be able extend the language itself.  Smalltalk was originally written in BASIC and then written in itself. In some languages you can add methods to objects willy nilly.  The idea that you have a tight typed model glued together with squishy languages.
+
+iDepotent - calling something once shouldn’t be different to calling it many times - substitution model.
+
+Kevlin Henney’s Talks on InfoQ
+http://www.infoq.com/author/Kevlin-Henney
+http://www.infoq.com/presentations/It-Is-Possible-to-Do-OOP-in-Java
+
+FLUID Principles
+http://www.everytalk.tv/talks/694-NDC--Introducing-The-FLUID-Principles
+Where SOLID Came From:
+http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod
+https://groups.google.com/forum/?hl=en#!topic/comp.object/WICPDcXAMG8
+Book on SOLID Principles
+http://lostechies.com/wp-content/uploads/2011/03/pablos_solid_ebook.pdf
+SOLID Motivational Posters
+http://lostechies.com/derickbailey/2009/02/11/solid-development-principles-in-motivational-pictures/
+Glenn Vanderburg’s Blog Post on Cohension
+http://www.vanderburg.org/blog/Software/Development/cohesion.rdoc
+Where the Unix Philosophy Breaks Down
+http://www.johndcook.com/blog/2010/06/30/where-the-unix-philosophy-breaks-down/
+Stuart Sierra talking about Clojure and protocols and datatypes
+http://stuartsierra.com/2009/12/14/objects-are-not-adts
+Robert Martin talking today about Clojure:
+http://www.functionalgeekery.com/episode-1-robert-c-martin/
+Code Reuse without Subtyping and dynamic dispatch
+http://shellblade.net/posts-subtyping.html
+
+
+
