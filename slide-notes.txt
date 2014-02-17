@@ -97,6 +97,9 @@ This is introspective.  Ability to write the program in itself and to be able ex
 
 iDepotent - calling something once shouldn’t be different to calling it many times - substitution model.
 
+Keith Pitty's writeup of Kevlin's talk
+http://keithpitty.com/blog/archives/2014-01-14-on-language-and-design
+
 Kevlin Henney’s Talks on InfoQ
 http://www.infoq.com/author/Kevlin-Henney
 http://www.infoq.com/presentations/It-Is-Possible-to-Do-OOP-in-Java
