@@ -126,7 +126,7 @@ http://www.vanderburg.org/blog/Software/Development/cohesion.rdoc
 Where the Unix Philosophy Breaks Down
 http://www.johndcook.com/blog/2010/06/30/where-the-unix-philosophy-breaks-down/
 
-Stuart Sierra talking about Clojure and protocols and datatypes
+Stuart Sierra talking about CLU, Clojure's protocols and datatypes
 http://stuartsierra.com/2009/12/14/objects-are-not-adts
 
 Robert Martin talking today about Clojure:
